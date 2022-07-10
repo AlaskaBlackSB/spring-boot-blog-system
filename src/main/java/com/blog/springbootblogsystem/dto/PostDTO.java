@@ -1,47 +1,35 @@
-package com.blog.springbootblogsystem.entity;
+package com.blog.springbootblogsystem.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import java.util.Set;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-@Entity
+import com.blog.springbootblogsystem.entity.Comment;
 
-@Table(
-    name = "publications", // Nombre de la tabla
-    uniqueConstraints = {
-        @UniqueConstraint(
-            columnNames = {"title"} // Atributo que debe ser único
-            )
-        }
-    )
-public class Publication {
+public class PostDTO {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(nullable = false)
+    @NotBlank(message = "The title must not be empty.")
+    @Size(min = 5, message = "The title of the post should have at least 5 characters.")
     private String title;
 
-    @NotBlank
-    @Column(nullable = false)
+    @NotBlank(message = "The description must not be empty.")
+    @Size(min = 10, message = "The description of the post should have at least 10 characters.")
     private String description;
 
-    @NotBlank
-    @Column(nullable = false)
+    @NotBlank(message = "The content must not be empty.")
+    @Size(min = 10, message = "The content of the post should have at least 10 characters.")
     private String content;
 
-    public Publication(){
+    private Set<Comment> comments;
+
+    public PostDTO(){
 
     }
 
-    public Publication(Long id, @NotBlank String title, @NotBlank String description, @NotBlank String content) {
+    public PostDTO(Long id, String title, String description, String content) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -102,6 +90,20 @@ public class Publication {
      */
     public void setContent(String content) {
         this.content = content;
+    }
+    
+    /**
+     * @return Set<Comment> return the comments
+     */
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
 }
