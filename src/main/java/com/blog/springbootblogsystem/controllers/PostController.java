@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,6 +64,7 @@ public class PostController {
      * @param postDTO post to be created
      * @return ResponseEntity<postDTO, HttpStatus>
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public ResponseEntity<PostDTO> store(@Valid @RequestBody PostDTO postDTO) {
         
@@ -79,6 +81,7 @@ public class PostController {
      * @param postDTO post to be updated
      * @return ResponseEntity<postDTO, HttpStatus>
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDTO> update(@Valid @RequestBody PostDTO postDTO, @PathVariable(name = "id") Long id) {
         
@@ -100,6 +103,7 @@ public class PostController {
      * @return ResponseEntity<String, HttpStatus>
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> delete(@PathVariable(name = "id") Long id) {
         
         // Send post id to delete
